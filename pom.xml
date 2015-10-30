@@ -1,0 +1,251 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>rest1c2ebs</groupId>
+  <artifactId>rest1c2ebs</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>Getting tax numbers to documents</name>
+  
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+<repositories>	
+	<repository>
+    	<id>codelds</id>
+    	<url>https://code.lds.org/nexus/content/groups/main-repo</url>
+    </repository>
+</repositories>
+        
+  <build>
+<!--     <sourceDirectory>src</sourceDirectory> This excludes webapp resources from copying to classes! -->
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/java</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
+	<plugins>
+	      <plugin>
+        	<artifactId>maven-war-plugin</artifactId>
+        	<version>2.6</version>
+        	<configuration>
+        	<warSourceDirectory>src/main/webapp</warSourceDirectory>
+          	<failOnMissingWebXml>false</failOnMissingWebXml>
+          	<warName>rest1c2ebs</warName>
+        	</configuration>
+      	</plugin>
+		<plugin>
+      	<artifactId>maven-compiler-plugin</artifactId>
+       	<version>3.3</version>
+       		<configuration>
+        		<source>1.8</source>
+        		<target>1.8</target>
+       		</configuration>
+    	</plugin>
+    	<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.18.1</version>
+			<configuration>
+			<includes>
+				<include>**/*Test.java</include>
+			</includes>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-resources-plugin</artifactId>
+        	<version>2.7</version>
+        	<configuration>
+          		<!-- specify UTF-8, ISO-8859-1 or any other file encoding -->
+          		<encoding>UTF-8</encoding>
+        	</configuration>
+     	</plugin>
+	</plugins>
+  </build>
+  
+<dependencies>  
+
+<!-- Database dependencies -->
+<!-- There is no direct Oracle connection from the app - we use Datasource -->
+<dependency>
+	<groupId>com.oracle</groupId> 
+	<artifactId>ojdbc6</artifactId> 
+	<version>11.2.0.3</version> 
+	<scope>test</scope>
+</dependency>
+<dependency>
+	<groupId>com.h2database</groupId>
+	<artifactId>h2</artifactId>
+	<version>1.4.187</version>
+	<scope>test</scope>
+</dependency>
+
+<!-- Servlet API and JSF 2.2 library for Tomcat -->
+<!-- <dependency> -->
+<!-- 	<groupId>javax</groupId> -->
+<!-- 	<artifactId>javaee-api</artifactId> -->
+<!-- 	<version>7.0</version> -->
+<!-- </dependency> -->
+
+<dependency>
+  <groupId>javax.enterprise</groupId>
+  <artifactId>cdi-api</artifactId>
+  <version>1.2</version>
+</dependency>
+
+  <!--
+    JBoss/Weld Refrence Implementation for
+    CDI on a Servlet Container. It is needed for Tomcat
+    http://balusc.omnifaces.org/2013/10/how-to-install-cdi-in-tomcat.html
+    Additionally we need context.xml file
+  -->
+<dependency>
+	<groupId>org.jboss.weld.servlet</groupId>
+	<artifactId>weld-servlet</artifactId>
+	<version>2.3.1.Final</version>
+	<scope>runtime</scope>
+</dependency>
+<dependency>
+	<groupId>javax.servlet</groupId>
+	<artifactId>javax.servlet-api</artifactId>
+	<version>3.1.0</version>
+	<scope>provided</scope>
+</dependency>
+<!-- Without this dependency Apache Tomcat doesn't work -->
+<!-- <dependency> -->
+<!-- 	<groupId>javax.servlet</groupId> -->
+<!-- 	<artifactId>jstl</artifactId> -->
+<!-- 	<version>1.2</version> -->
+<!-- </dependency> -->
+
+<!-- <dependency> -->
+<!-- 	<groupId>com.sun.jersey</groupId> -->
+<!-- 	<artifactId>jersey-bundle</artifactId> -->
+<!-- 	<version>1.19</version> -->
+<!-- </dependency> -->
+
+<!-- Jersey 1 -->
+<dependency>
+	<groupId>com.sun.jersey</groupId>
+	<artifactId>jersey-bundle</artifactId>
+	<version>1.19</version>
+</dependency>
+<dependency>
+	<groupId>com.sun.jersey</groupId>
+	<artifactId>jersey-server</artifactId>
+	<version>1.19</version>
+</dependency>
+<dependency>
+	<groupId>com.sun.jersey</groupId>
+	<artifactId>jersey-core</artifactId>
+	<version>1.19</version>
+</dependency>
+
+
+<!-- This dependency is needed for Jersey 1
+http://crunchify.com/how-to-build-restful-service-with-java-using-jax-rs-and-jersey/
+http://nerdwin15.com/2014/01/using-weld-cdi-jsf-and-jax-rs-in-tomcat/
+ -->
+<dependency>
+	<groupId>asm</groupId>
+	<artifactId>asm</artifactId>
+	<version>3.3.1</version>
+</dependency>
+
+
+<!-- <dependency> -->
+<!-- 	<groupId>org.glassfish.jersey.core</groupId> -->
+<!-- 	<artifactId>jersey-server</artifactId> -->
+<!-- 	<version>2.22.1</version> -->
+<!-- </dependency> -->
+<!-- <dependency> -->
+<!--     <groupId>org.glassfish.jersey.containers</groupId> -->
+<!--     <artifactId>jersey-container-servlet-core</artifactId> -->
+<!--     <version>2.22.1</version> -->
+<!-- </dependency> -->
+<!-- <dependency> -->
+<!--     <groupId>org.glassfish.jersey.containers</groupId> -->
+<!--     if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core"  -->
+<!--     <artifactId>jersey-container-servlet</artifactId> -->
+<!--     <version>2.22.1</version> -->
+<!-- </dependency> -->
+<!-- Jersey CDI for GlassFish integration - this module disables custom HK2 binding -->
+<!-- http://stackoverflow.com/questions/18963627/how-to-integrate-jax-rs-with-cdi-in-a-servlet-3-0-container -->
+<!-- <dependency> -->
+<!-- 	<groupId>org.glassfish.jersey.containers.glassfish</groupId> -->
+<!-- 	<artifactId>jersey-gf-cdi-ban-custom-hk2-binding</artifactId> -->
+<!-- 	<version>2.14</version> -->
+<!-- </dependency> -->
+
+
+
+<!-- Testing components -->
+<dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.12</version>
+	<scope>test</scope>
+</dependency>
+<dependency>
+	<groupId>org.assertj</groupId>
+	<artifactId>assertj-core</artifactId>
+	<version>3.2.0</version>
+	<scope>test</scope>
+</dependency>
+
+<!-- Miscellaneous stuff, to check parameters -->
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-validator</artifactId>
+	<version>5.2.1.Final</version>
+</dependency>
+
+<!-- 
+Other overhead stuff that will not be used
+<dependency>
+	<groupId>xmlunit</groupId>
+	<artifactId>xmlunit</artifactId>
+	<version>1.6</version>
+</dependency>
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-core</artifactId>
+	<version>${hibernate.version}</version>
+</dependency>
+
+<dependency>
+	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpclient</artifactId>
+	<version>4.5.1</version>
+</dependency>
+<dependency>
+	<groupId>xmlpull</groupId>
+	<artifactId>xmlpull</artifactId>
+	<version>1.1.3.1</version>
+</dependency>
+<dependency>
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-api</artifactId>
+	<version>1.7.12</version>
+</dependency>
+<dependency>
+	<groupId>log4j</groupId>
+	<artifactId>log4j</artifactId>
+	<version>1.2.17</version>
+</dependency> -->
+
+
+</dependencies>  
+</project>
