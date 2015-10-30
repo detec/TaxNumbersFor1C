@@ -22,4 +22,4 @@ Following technologies and components are used in this web service:
 - Apache Tomcat 8;
 - Java 8.
 
-The project can be built either with Maven (3.3 or higher) or Eclipse 4.5 or higher).
+The project can be built either with Maven (3.3 or higher) or Eclipse (4.5 or higher).
