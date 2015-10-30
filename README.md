@@ -21,4 +21,5 @@ Following technologies and components are used in this web service:
 - JDBC;
 - Maven 3.3;
 - Apache Tomcat 8;
+- Eclipse Mars 4.5;
 - Java 8.
