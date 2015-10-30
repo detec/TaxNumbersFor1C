@@ -19,7 +19,7 @@ Following technologies and components are used in this web service:
 - Hibernate Validator 5.2.1;
 - JUnit 4.12;
 - JDBC;
-- Maven 3.3;
 - Apache Tomcat 8;
-- Eclipse Mars 4.5;
 - Java 8.
+
+The project can be built either with Maven (3.3 or higher) or - Eclipse Mars (4.5 or higher).
