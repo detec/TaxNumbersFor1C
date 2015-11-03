@@ -68,14 +68,22 @@ public class TaxNumberDAO implements Serializable, ITaxNumberDAO {
 		return taxInvoiceNumber;
 	}
 
+	public ConnectionManager getCm() {
+		return cm;
+	}
+
+	public void setCm(ConnectionManager cm) {
+		this.cm = cm;
+	}
+
 	private static final String sqlString = "select apps.xxa_om_tax_inv_pkg.GetSerialNumberTaxInv1c( " + "'%s', " // [ОКПО]
 			+ "%s, " // [Дата]
 			+ "'%s') " // [Ид документа])
 			+ "from dual ";
 
 	private static final long serialVersionUID = 4695183924489794739L;
-	@Inject
 
+	@Inject
 	private ConnectionManager cm;
 
 	private String exceptionString = "";

@@ -7,6 +7,8 @@
   <name>Getting tax numbers to documents</name>
   
 	<properties>
+		<hibernate.version>4.3.11.Final</hibernate.version>
+		<mojarra-version>2.2.12</mojarra-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
@@ -204,6 +206,13 @@ http://nerdwin15.com/2014/01/using-weld-cdi-jsf-and-jax-rs-in-tomcat/
 	<version>3.2.0</version>
 	<scope>test</scope>
 </dependency>
+<dependency>
+	<groupId>org.mockito</groupId>
+	<artifactId>mockito-all</artifactId>
+	<version>1.10.19</version>
+	<scope>test</scope>
+</dependency>
+
 
 <!-- Miscellaneous stuff, to check parameters -->
 <dependency>

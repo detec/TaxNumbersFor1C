@@ -1,8 +1,11 @@
 package com.malbi.taxnumbers.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -35,6 +38,28 @@ public class TaxNumberParameterTest {
 		validator = factory.getValidator();
 	}
 
+	// We need to look for messages in array because sequence of violation
+	// messages changes from compilation to compilation.
+
+	// private List<String> getMessagesList() {
+	// List<String> valuesmap = new ArrayList<String>();
+	// valuesmap.add(EMPTY);
+	// valuesmap.add(REGEXMSG810);
+	// valuesmap.add(REGEXMSGDATE);
+	// valuesmap.add(SIZEMSG);
+	// valuesmap.add(NULLMSG);
+	//
+	// return valuesmap;
+	// }
+
+	private void loopIterator(Iterator<ConstraintViolation<TaxNumberParameter>> Iterator,
+			ConstraintViolation<TaxNumberParameter> violation, List<String> valuesmap) {
+		while (Iterator.hasNext()) {
+			violation = Iterator.next();
+			assertTrue(valuesmap.contains(violation.getMessage()));
+		}
+	}
+
 	@Test
 	public void firmokpoShouldNotBeNull() {
 		TaxNumberParameter par = new TaxNumberParameter(null, "00006", "01.01.2015");
@@ -46,11 +71,17 @@ public class TaxNumberParameterTest {
 
 		ConstraintViolation<TaxNumberParameter> violation = null;
 
-		violation = Iterator.next();
-		assertEquals(NULLMSG, violation.getMessage());
+		List<String> valuesmap = new ArrayList<String>();
+		valuesmap.add(NULLMSG);
+		valuesmap.add(EMPTY);
 
-		violation = Iterator.next();
-		assertEquals(EMPTY, violation.getMessage());
+		loopIterator(Iterator, violation, valuesmap);
+
+		// violation = Iterator.next();
+		// assertEquals(NULLMSG, violation.getMessage());
+		//
+		// violation = Iterator.next();
+		// assertEquals(EMPTY, violation.getMessage());
 	}
 
 	@Test
@@ -63,14 +94,21 @@ public class TaxNumberParameterTest {
 
 		ConstraintViolation<TaxNumberParameter> violation = null;
 
-		violation = Iterator.next();
-		assertEquals(REGEXMSG810, violation.getMessage());
+		List<String> valuesmap = new ArrayList<String>();
+		valuesmap.add(REGEXMSG810);
+		valuesmap.add(SIZEMSG);
+		valuesmap.add(EMPTY);
 
-		violation = Iterator.next();
-		assertEquals(SIZEMSG, violation.getMessage());
+		loopIterator(Iterator, violation, valuesmap);
 
-		violation = Iterator.next();
-		assertEquals(EMPTY, violation.getMessage());
+		// violation = Iterator.next();
+		// assertEquals(REGEXMSG810, violation.getMessage());
+		//
+		// violation = Iterator.next();
+		// assertEquals(SIZEMSG, violation.getMessage());
+		//
+		// violation = Iterator.next();
+		// assertEquals(EMPTY, violation.getMessage());
 	}
 
 	@Test
@@ -83,11 +121,17 @@ public class TaxNumberParameterTest {
 
 		ConstraintViolation<TaxNumberParameter> violation = null;
 
-		violation = Iterator.next();
-		assertEquals(EMPTY, violation.getMessage());
+		List<String> valuesmap = new ArrayList<String>();
+		valuesmap.add(EMPTY);
+		valuesmap.add(NULLMSG);
 
-		violation = Iterator.next();
-		assertEquals(NULLMSG, violation.getMessage());
+		loopIterator(Iterator, violation, valuesmap);
+
+		// violation = Iterator.next();
+		// assertEquals(EMPTY, violation.getMessage());
+		//
+		// violation = Iterator.next();
+		// assertEquals(NULLMSG, violation.getMessage());
 
 	}
 
@@ -111,11 +155,17 @@ public class TaxNumberParameterTest {
 
 		ConstraintViolation<TaxNumberParameter> violation = null;
 
-		violation = Iterator.next();
-		assertEquals(NULLMSG, violation.getMessage());
+		List<String> valuesmap = new ArrayList<String>();
+		valuesmap.add(EMPTY);
+		valuesmap.add(NULLMSG);
 
-		violation = Iterator.next();
-		assertEquals(EMPTY, violation.getMessage());
+		loopIterator(Iterator, violation, valuesmap);
+
+		// violation = Iterator.next();
+		// assertEquals(NULLMSG, violation.getMessage());
+		//
+		// violation = Iterator.next();
+		// assertEquals(EMPTY, violation.getMessage());
 
 	}
 
@@ -129,11 +179,17 @@ public class TaxNumberParameterTest {
 
 		ConstraintViolation<TaxNumberParameter> violation = null;
 
-		violation = Iterator.next();
-		assertEquals(REGEXMSGDATE, violation.getMessage());
+		List<String> valuesmap = new ArrayList<String>();
 
-		violation = Iterator.next();
-		assertEquals(EMPTY, violation.getMessage());
+		valuesmap.add(REGEXMSGDATE);
+		valuesmap.add(EMPTY);
+		loopIterator(Iterator, violation, valuesmap);
+
+		// violation = Iterator.next();
+		// assertEquals(REGEXMSGDATE, violation.getMessage());
+		//
+		// violation = Iterator.next();
+		// assertEquals(EMPTY, violation.getMessage());
 
 	}
 
@@ -146,11 +202,17 @@ public class TaxNumberParameterTest {
 		assertEquals(2, constraintViolations.size());
 
 		ConstraintViolation<TaxNumberParameter> violation = null;
-		violation = Iterator.next();
-		assertEquals(SIZEMSG, violation.getMessage());
 
-		violation = Iterator.next();
-		assertEquals(REGEXMSG810, violation.getMessage());
+		List<String> valuesmap = new ArrayList<String>();
+		valuesmap.add(SIZEMSG);
+		valuesmap.add(REGEXMSG810);
+		loopIterator(Iterator, violation, valuesmap);
+
+		// violation = Iterator.next();
+		// assertEquals(SIZEMSG, violation.getMessage());
+		//
+		// violation = Iterator.next();
+		// assertEquals(REGEXMSG810, violation.getMessage());
 
 	}
 
@@ -164,11 +226,17 @@ public class TaxNumberParameterTest {
 
 		ConstraintViolation<TaxNumberParameter> violation = null;
 
-		violation = Iterator.next();
-		assertEquals(REGEXMSG810, violation.getMessage());
+		List<String> valuesmap = new ArrayList<String>();
+		valuesmap.add(REGEXMSG810);
+		valuesmap.add(SIZEMSG);
 
-		violation = Iterator.next();
-		assertEquals(SIZEMSG, violation.getMessage());
+		loopIterator(Iterator, violation, valuesmap);
+
+		// violation = Iterator.next();
+		// assertEquals(REGEXMSG810, violation.getMessage());
+		//
+		// violation = Iterator.next();
+		// assertEquals(SIZEMSG, violation.getMessage());
 
 	}
 
@@ -184,5 +252,15 @@ public class TaxNumberParameterTest {
 		violation = Iterator.next();
 		assertEquals(REGEXMSG810, violation.getMessage());
 
+	}
+
+	@Test
+	public void validateRealExample() {
+		TaxNumberParameter par = new TaxNumberParameter("32140004", "OШКМОк000000000304", "02.01.2015");
+
+		Set<ConstraintViolation<TaxNumberParameter>> constraintViolations = validator.validate(par);
+		Iterator<ConstraintViolation<TaxNumberParameter>> Iterator = constraintViolations.iterator();
+
+		assertEquals(0, constraintViolations.size());
 	}
 }

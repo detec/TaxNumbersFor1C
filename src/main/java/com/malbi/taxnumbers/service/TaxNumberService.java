@@ -31,6 +31,8 @@ public class TaxNumberService implements Serializable {
 			validationBuffer.append(t.getMessage() + "\n");
 		});
 
+		// 03.11.2015, Andrei Duplik, it is strange but validation falls on
+		// database where everything was OK.
 		String validationMessage = validationBuffer.toString();
 		if (!validationMessage.isEmpty()) {
 			// throw new Exception(validationMessage);

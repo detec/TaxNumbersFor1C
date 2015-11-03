@@ -31,6 +31,8 @@ public class ConnectionManager implements Serializable {
 
 	private static final long serialVersionUID = 1593353288174396962L;
 
-	@Resource(name = "jdbc/oracle")
+	// Agreed to change datasource name
+	// @Resource(name = "jdbc/oracle")
+	@Resource(name = "jdbc/oraDbProdDataSource")
 	private DataSource DataSource;
 }
