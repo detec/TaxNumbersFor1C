@@ -4,6 +4,8 @@ This JAX-RS web service is a customization of exchange between Oracle E-Business
 
 When storing a new VAT invoice, regardless of the way it has been created, 1C 8 database sends an HTTP-query like <http://servername:port/appcontext/services/taxinvoicenumber/?firmokpo=value&docnum=value&docdate=value> . These parameters are validated by the web service, transformed to a composite key and submitted to OEBS database via JDBC. In every concrete case OEBS stored procedure either generates and stores a new invoice number to the composite key sent or retrieves an existing number from database view if the key is present.
 
+This is a corporate project in production.
+
 ##System requirements: ##
 
 - Apache Tomcat 8;
