@@ -1,5 +1,7 @@
 package com.malbi.taxnumbers.service;
 
+import javax.naming.NamingException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +26,7 @@ public class TaxNumberServiceTest {
 	}
 
 	@Test
-	public void getTaxNumberTest() {
+	public void getTaxNumberTest() throws NamingException {
 		// Let's test, that getTaxNumber method in TaxNumberDAO can be called
 		TaxNumberParameter params = new TaxNumberParameter("48534290", "00006", "27.10.2015");
 		String taxNumber = TaxNumberDAO.getTaxNumber(params);

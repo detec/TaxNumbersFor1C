@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.naming.NamingException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -16,10 +17,13 @@ import com.malbi.taxnumbers.model.TaxNumberParameter;
 
 @Named("TaxNumberService")
 @ApplicationScoped
-public class TaxNumberService implements Serializable {
+public class TaxNumberService implements Serializable, ITaxNumberService {
 
+	@Override
 	public String getTaxNumber(String firmokpo, String docnum, String docdate) {
 		TaxNumberParameter params = new TaxNumberParameter(firmokpo, docnum, docdate);
+
+		StringBuffer outputBuffer = new StringBuffer();
 
 		// here we should validate parameters, that have been passed with query
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -36,15 +40,27 @@ public class TaxNumberService implements Serializable {
 		String validationMessage = validationBuffer.toString();
 		if (!validationMessage.isEmpty()) {
 			// throw new Exception(validationMessage);
-			this.exceptionString = validationMessage;
+			// this.exceptionString = validationMessage;
+			outputBuffer.append(validationMessage);
 		}
 
-		String taxNumber = TaxNumberDAO.getTaxNumber(params);
+		String taxNumber = "";
+		try {
+			taxNumber = TaxNumberDAO.getTaxNumber(params);
+		} catch (NamingException e) {
+			outputBuffer.append("\n " + e.getMessage());
+		}
 
 		// Let's read exceptions from DAO
 		String DAOException = TaxNumberDAO.getExceptionString();
 		if (!DAOException.isEmpty()) {
-			this.exceptionString = DAOException;
+			// this.exceptionString = DAOException;
+			outputBuffer.append("\n " + DAOException);
+		}
+
+		// collect all errors into one string
+		if (!outputBuffer.toString().isEmpty()) {
+			this.exceptionString = outputBuffer.toString();
 		}
 
 		return taxNumber;
@@ -52,10 +68,12 @@ public class TaxNumberService implements Serializable {
 
 	private String exceptionString = "";
 
+	@Override
 	public String getExceptionString() {
 		return exceptionString;
 	}
 
+	@Override
 	public void setExceptionString(String exceptionString) {
 		this.exceptionString = exceptionString;
 	}

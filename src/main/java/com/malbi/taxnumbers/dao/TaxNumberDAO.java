@@ -9,6 +9,7 @@ import java.sql.Statement;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.naming.NamingException;
 
 import com.malbi.taxnumbers.db.ConnectionManager;
 import com.malbi.taxnumbers.model.TaxNumberParameter;
@@ -20,45 +21,58 @@ import com.malbi.taxnumbers.model.TaxNumberParameter;
 public class TaxNumberDAO implements Serializable, ITaxNumberDAO {
 
 	@Override
-	public String getTaxNumber(TaxNumberParameter params) {
+	public String getTaxNumber(TaxNumberParameter params) throws NamingException {
 		String queryString = String.format(sqlString, params.getFirmokpo(),
 				"to_date('" + params.getDocdate() + "', 'dd.mm.yy')", params.getDocnum());
 
-		Connection conn = null;
-		Statement stmt = null;
+		// Connection conn = null;
+		// Statement stmt = null;
 		StringBuffer errorBuffer = new StringBuffer();
 
 		String taxInvoiceNumber = "";
-		try {
-			conn = cm.getDBConnection();
+		// try {
+		// conn = cm.getDBConnection();
+		//
+		// if (conn != null) {
+		// stmt = conn.createStatement();
+		//
+		// ResultSet rs = stmt.executeQuery(queryString);
+		// while (rs.next()) {
+		// taxInvoiceNumber = rs.getString(1);
+		// break;
+		// }
+		//
+		// }
+		// } catch (SQLException e) {
+		// errorBuffer.append(e.getMessage());
+		// } finally {
+		// if (stmt != null) {
+		// try {
+		// stmt.close();
+		// } catch (SQLException e) {
+		// errorBuffer.append(e.getMessage());
+		// }
+		// }
+		// if (conn != null) {
+		// try {
+		// conn.close();
+		// } catch (SQLException e) {
+		// errorBuffer.append(e.getMessage());
+		// }
+		// }
+		// }
 
-			if (conn != null) {
-				stmt = conn.createStatement();
-
-				ResultSet rs = stmt.executeQuery(queryString);
-				while (rs.next()) {
-					taxInvoiceNumber = rs.getString(1);
-					break;
-				}
-
+		// 22.12.2015, Andrei Duplik. Let's use try with resources and close
+		// resultset
+		try (Connection conn = cm.getDBConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(queryString);) {
+			if (rs.next()) {
+				taxInvoiceNumber = rs.getString(1);
 			}
+
 		} catch (SQLException e) {
 			errorBuffer.append(e.getMessage());
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					errorBuffer.append(e.getMessage());
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					errorBuffer.append(e.getMessage());
-				}
-			}
 		}
 
 		String errorBufferString = errorBuffer.toString();

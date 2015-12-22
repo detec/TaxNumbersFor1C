@@ -8,14 +8,25 @@ import java.sql.SQLException;
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 @Named("ConnectionManager")
 @ApplicationScoped
 public class ConnectionManager implements Serializable {
 
-	public Connection getDBConnection() throws SQLException {
+	public Connection getDBConnection() throws SQLException, NamingException {
 		Connection con = null;
+
+		if (DataSource == null) {
+			// trying without injection, because it doesn't work with JAX-RS 2.0
+			InitialContext initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource = (DataSource) envContext.lookup("jdbc/oraDbProdDataSource");
+		}
+
 		if (DataSource != null) {
 			con = DataSource.getConnection();
 
@@ -27,6 +38,14 @@ public class ConnectionManager implements Serializable {
 			throw new SQLException("Datasource from Tomcat returned as null!");
 		}
 		return con;
+	}
+
+	public DataSource getDataSource() {
+		return DataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		DataSource = dataSource;
 	}
 
 	private static final long serialVersionUID = 1593353288174396962L;
