@@ -12,11 +12,14 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.jvnet.hk2.annotations.Service;
+
 import com.malbi.taxnumbers.dao.ITaxNumberDAO;
 import com.malbi.taxnumbers.model.TaxNumberParameter;
 
 @Named("TaxNumberService")
 @ApplicationScoped
+@Service
 public class TaxNumberService implements Serializable, ITaxNumberService {
 
 	@Override

@@ -10,9 +10,20 @@ public class MyApplication extends ResourceConfig {
 
 	public MyApplication() {
 		packages("com.malbi.taxnumbers.controllers");
-		// for dependency injection
 
+		// config classes
+		packages("com.malbi.taxnumbers.config");
+
+		// we will try to use Jersey 2 HK injection component
+		// without manual binding it does not work
+		// There is an option to generate a file with map for interfaces and
+		// implementations.
+		// http://www.justinleegrant.com/?p=516
+		// But the boilerplate code for this is huge and in Eclipse this tool
+		// is not launched, only with maven plugin.
 		register(new MyApplicationBinder());
+
+		// register(CustomJaxBContext.class);
 
 		property(ServerProperties.APPLICATION_NAME, "Jersey 2 XML service for tax numbers");
 	}

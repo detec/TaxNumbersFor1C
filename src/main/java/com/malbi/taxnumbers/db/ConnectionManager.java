@@ -13,8 +13,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.jvnet.hk2.annotations.Service;
+
 @Named("ConnectionManager")
 @ApplicationScoped
+@Service
 public class ConnectionManager implements Serializable {
 
 	public Connection getDBConnection() throws SQLException, NamingException {

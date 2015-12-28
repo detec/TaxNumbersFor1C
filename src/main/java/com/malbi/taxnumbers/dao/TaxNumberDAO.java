@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.NamingException;
 
+import org.jvnet.hk2.annotations.Service;
+
 import com.malbi.taxnumbers.db.ConnectionManager;
 import com.malbi.taxnumbers.model.TaxNumberParameter;
 
@@ -18,6 +20,7 @@ import com.malbi.taxnumbers.model.TaxNumberParameter;
 
 @Named("TaxNumberDAO")
 @ApplicationScoped
+@Service
 public class TaxNumberDAO implements Serializable, ITaxNumberDAO {
 
 	@Override

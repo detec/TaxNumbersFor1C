@@ -6,15 +6,16 @@ import java.io.StringWriter;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import javax.xml.bind.JAXB;
+
+import org.jvnet.hk2.annotations.Service;
 
 import com.malbi.taxnumbers.model.Result;
 import com.malbi.taxnumbers.service.ITaxNumberService;
 
 @Named("TaxXMLBuilder")
 @ApplicationScoped
+@Service
 public class TaxXMLBuilder implements Serializable {
 
 	public String getTaxNumberXML(String firmokpo, String docnum, String docdate) {
@@ -45,18 +46,24 @@ public class TaxXMLBuilder implements Serializable {
 		// Taken from http://www.vogella.com/tutorials/JAXB/article.html
 
 		// create JAXB context and instantiate marshaller
-		JAXBContext context = null;
-		Marshaller marshaller = null;
+		// JAXBContext context = null;
+		// It is too expensive to create it every time
+		// Marshaller marshaller = null;
+		//
+		// try {
+		// context = JAXBContext.newInstance(Result.class);
+		// marshaller = context.createMarshaller();
+		// marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
+		// Boolean.TRUE);
+		// marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+		// marshaller.marshal(response, outputBuffer);
+		// } catch (JAXBException e1) {
+		// outputBuffer.append("\n" + e1.getMessage());
+		// }
 
-		try {
-			context = JAXBContext.newInstance(Result.class);
-			marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-			marshaller.marshal(response, outputBuffer);
-		} catch (JAXBException e1) {
-			outputBuffer.append("\n" + e1.getMessage());
-		}
+		// http://stackoverflow.com/questions/31637729/jaxb-marshall-unmarshall?rq=1
+
+		JAXB.marshal(response, outputBuffer);
 
 		return outputBuffer.toString();
 
