@@ -1,0 +1,6 @@
+com\malbi\taxnumbers\util\RealDatabaseExport.class
+com\malbi\taxnumbers\processor\TaxNumberBuilderTest.class
+com\malbi\taxnumbers\db\DBUnitConfig.class
+com\malbi\taxnumbers\model\TaxNumberParameterTest.class
+com\malbi\taxnumbers\util\AcceptedDateFormat.class
+com\malbi\taxnumbers\db\MockConnectionManager.class

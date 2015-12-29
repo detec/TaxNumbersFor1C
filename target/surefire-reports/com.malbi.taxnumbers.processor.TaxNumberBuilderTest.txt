@@ -1,0 +1,18 @@
+-------------------------------------------------------------------------------
+Test set: com.malbi.taxnumbers.processor.TaxNumberBuilderTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.764 sec <<< FAILURE! - in com.malbi.taxnumbers.processor.TaxNumberBuilderTest
+testShouldMatchWithReferenceResponses(com.malbi.taxnumbers.processor.TaxNumberBuilderTest)  Time elapsed: 0.764 sec  <<< FAILURE!
+junit.framework.ComparisonFailure: expected:<..." standalone="yes"?>[
+<result>
+    <taxinvoicenumber number="0000009"></taxinvoicenumber>
+</result>]> but was:<..." standalone="yes"?>[
+<result>
+    <taxinvoicenumber number="0000009"></taxinvoicenumber>
+</result>
+]>
+	at junit.framework.Assert.assertEquals(Assert.java:100)
+	at junit.framework.Assert.assertEquals(Assert.java:107)
+	at junit.framework.TestCase.assertEquals(TestCase.java:269)
+	at com.malbi.taxnumbers.processor.TaxNumberBuilderTest.testShouldMatchWithReferenceResponses(TaxNumberBuilderTest.java:91)
+
