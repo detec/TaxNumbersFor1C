@@ -2,6 +2,8 @@ package com.malbi.taxnumbers.service;
 
 import org.jvnet.hk2.annotations.Contract;
 
+import com.malbi.taxnumbers.dao.ITaxNumberDAO;
+
 @Contract
 public interface ITaxNumberService {
 
@@ -10,5 +12,9 @@ public interface ITaxNumberService {
 	public String getExceptionString();
 
 	public void setExceptionString(String exceptionString);
+
+	public ITaxNumberDAO getTaxNumberDAO();
+
+	public void setTaxNumberDAO(ITaxNumberDAO taxNumberDAO);
 
 }

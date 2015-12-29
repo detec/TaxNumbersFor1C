@@ -18,8 +18,9 @@ import org.jvnet.hk2.annotations.Service;
 @Named("ConnectionManager")
 @ApplicationScoped
 @Service
-public class ConnectionManager implements Serializable {
+public class ConnectionManager implements Serializable, IConnectionManager {
 
+	@Override
 	public Connection getDBConnection() throws SQLException, NamingException {
 		Connection con = null;
 
@@ -43,13 +44,15 @@ public class ConnectionManager implements Serializable {
 		return con;
 	}
 
-	public DataSource getDataSource() {
-		return DataSource;
-	}
-
-	public void setDataSource(DataSource dataSource) {
-		DataSource = dataSource;
-	}
+	// @Override
+	// public DataSource getDataSource() {
+	// return DataSource;
+	// }
+	//
+	// @Override
+	// public void setDataSource(DataSource dataSource) {
+	// DataSource = dataSource;
+	// }
 
 	private static final long serialVersionUID = 1593353288174396962L;
 

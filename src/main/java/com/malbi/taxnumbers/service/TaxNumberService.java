@@ -81,6 +81,16 @@ public class TaxNumberService implements Serializable, ITaxNumberService {
 		this.exceptionString = exceptionString;
 	}
 
+	@Override
+	public ITaxNumberDAO getTaxNumberDAO() {
+		return TaxNumberDAO;
+	}
+
+	@Override
+	public void setTaxNumberDAO(ITaxNumberDAO taxNumberDAO) {
+		TaxNumberDAO = taxNumberDAO;
+	}
+
 	private static final long serialVersionUID = 5985218860122022636L;
 
 	@Inject

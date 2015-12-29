@@ -29,14 +29,14 @@
         </excludes>
       </resource>
     </resources>
-    <testResources>
-      <testResource>
-        <directory>src/test/java</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </testResource>
-    </testResources>
+	<testResources>
+	  <testResource>
+	    <directory>${project.basedir}/src/test/java</directory>
+	  </testResource>
+	  <testResource>
+	    <directory>${project.basedir}/src/test/resources</directory>
+	  </testResource>
+	</testResources> 
 	<plugins>
 	      <plugin>
         	<artifactId>maven-war-plugin</artifactId>
@@ -79,83 +79,26 @@
   
 <dependencies>  
 
-<!-- Database dependencies -->
-<!-- There is no direct Oracle connection from the app - we use Datasource -->
-<dependency>
-	<groupId>com.oracle</groupId> 
-	<artifactId>ojdbc6</artifactId> 
-	<version>11.2.0.3</version> 
-	<scope>test</scope>
-</dependency>
-<dependency>
-	<groupId>com.h2database</groupId>
-	<artifactId>h2</artifactId>
-	<version>1.4.187</version>
-	<scope>test</scope>
-</dependency>
 
-<!-- Servlet API and JSF 2.2 library for Tomcat -->
-<!-- <dependency> -->
-<!-- 	<groupId>javax</groupId> -->
-<!-- 	<artifactId>javaee-api</artifactId> -->
-<!-- 	<version>7.0</version> -->
-<!-- </dependency> -->
+	<dependency>
+	  <groupId>javax.enterprise</groupId>
+	  <artifactId>cdi-api</artifactId>
+	  <version>1.2</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>3.1.0</version>
+		<scope>provided</scope>
+	</dependency>
+	
+	<!-- Miscellaneous stuff, to check parameters -->
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-validator</artifactId>
+		<version>5.2.2.Final</version>
+	</dependency>
 
-<dependency>
-  <groupId>javax.enterprise</groupId>
-  <artifactId>cdi-api</artifactId>
-  <version>1.2</version>
-</dependency>
-
-  <!--
-    JBoss/Weld Refrence Implementation for
-    CDI on a Servlet Container. It is needed for Tomcat
-    http://balusc.omnifaces.org/2013/10/how-to-install-cdi-in-tomcat.html
-    Additionally we need context.xml file
-  -->
-<dependency>
-	<groupId>org.jboss.weld.servlet</groupId>
-	<artifactId>weld-servlet</artifactId>
-	<version>2.3.1.Final</version>
-	<scope>runtime</scope>
-</dependency>
-<dependency>
-	<groupId>javax.servlet</groupId>
-	<artifactId>javax.servlet-api</artifactId>
-	<version>3.1.0</version>
-	<scope>provided</scope>
-</dependency>
-<!-- Without this dependency Apache Tomcat doesn't work -->
-<!-- <dependency> -->
-<!-- 	<groupId>javax.servlet</groupId> -->
-<!-- 	<artifactId>jstl</artifactId> -->
-<!-- 	<version>1.2</version> -->
-<!-- </dependency> -->
-
-
-<!-- Jersey 1 -->
-<!-- <dependency>
-	<groupId>com.sun.jersey</groupId>
-	<artifactId>jersey-bundle</artifactId>
-	<version>1.19</version>
-</dependency>
-<dependency>
-	<groupId>com.sun.jersey</groupId>
-	<artifactId>jersey-server</artifactId>
-	<version>1.19</version>
-</dependency>
-<dependency>
-	<groupId>com.sun.jersey</groupId>
-	<artifactId>jersey-core</artifactId>
-	<version>1.19</version>
-</dependency> -->
-
-<!-- Jersey 2 with Jackson -->
-<!-- <dependency> -->
-<!-- 	<groupId>org.glassfish.jersey.core</groupId> -->
-<!-- 	<artifactId>jersey-server</artifactId> -->
-<!-- 	<version>${jersey.version}</version> -->
-<!-- </dependency> -->
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet-core</artifactId>
@@ -166,137 +109,60 @@
       <artifactId>jersey-container-servlet</artifactId>
       <version>${jersey.version}</version>
     </dependency>
-    <!-- Woodstox is a high-performance XML processor that implements Stax (JSR-173) and SAX2 APIs -->
-    <dependency>
-    	<groupId>org.codehaus.woodstox</groupId>
-        <artifactId>woodstox-core-asl</artifactId>
-        <version>4.1.2</version>
-    </dependency>
-
-    
-    <!-- Jersey CDI for GlassFish integration 
-    http://stackoverflow.com/questions/16216759/dependency-injection-with-jersey-2-0
-    
-    No, it causes Tomcat error stop
-     -->
-<!--     <dependency>
-		<groupId>org.glassfish.jersey.containers.glassfish</groupId>
-		<artifactId>jersey-gf-cdi</artifactId>
-		<version>2.14</version>
-	</dependency> -->
-    
-
-<!-- We will try to use default MOXy -->
-<!-- <dependency>
-	<groupId>org.glassfish.jersey.media</groupId>
-	<artifactId>jersey-media-json-jackson</artifactId>
-	<version>${jersey.version}</version>
-</dependency>
-<dependency>
-   	<groupId>com.fasterxml.jackson.core</groupId>
-   	<artifactId>jackson-databind</artifactId>
-   	<version>${jackson.version}</version>
-</dependency> -->
-
-<!-- This dependency is needed for Jersey 1
-http://crunchify.com/how-to-build-restful-service-with-java-using-jax-rs-and-jersey/
-http://nerdwin15.com/2014/01/using-weld-cdi-jsf-and-jax-rs-in-tomcat/
- -->
-<!-- <dependency>
-	<groupId>asm</groupId>
-	<artifactId>asm</artifactId>
-	<version>3.3.1</version>
-</dependency> -->
-
-
-<!-- <dependency> -->
-<!-- 	<groupId>org.glassfish.jersey.core</groupId> -->
-<!-- 	<artifactId>jersey-server</artifactId> -->
-<!-- 	<version>2.22.1</version> -->
-<!-- </dependency> -->
-<!-- <dependency> -->
-<!--     <groupId>org.glassfish.jersey.containers</groupId> -->
-<!--     <artifactId>jersey-container-servlet-core</artifactId> -->
-<!--     <version>2.22.1</version> -->
-<!-- </dependency> -->
-<!-- <dependency> -->
-<!--     <groupId>org.glassfish.jersey.containers</groupId> -->
-<!--     if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core"  -->
-<!--     <artifactId>jersey-container-servlet</artifactId> -->
-<!--     <version>2.22.1</version> -->
-<!-- </dependency> -->
-<!-- Jersey CDI for GlassFish integration - this module disables custom HK2 binding -->
-<!-- http://stackoverflow.com/questions/18963627/how-to-integrate-jax-rs-with-cdi-in-a-servlet-3-0-container -->
-<!-- <dependency> -->
-<!-- 	<groupId>org.glassfish.jersey.containers.glassfish</groupId> -->
-<!-- 	<artifactId>jersey-gf-cdi-ban-custom-hk2-binding</artifactId> -->
-<!-- 	<version>2.14</version> -->
-<!-- </dependency> -->
-
 
 
 <!-- Testing components -->
-<dependency>
-	<groupId>junit</groupId>
-	<artifactId>junit</artifactId>
-	<version>4.12</version>
-	<scope>test</scope>
-</dependency>
-<dependency>
-	<groupId>org.assertj</groupId>
-	<artifactId>assertj-core</artifactId>
-	<version>3.2.0</version>
-	<scope>test</scope>
-</dependency>
-<dependency>
-	<groupId>org.mockito</groupId>
-	<artifactId>mockito-all</artifactId>
-	<version>1.10.19</version>
-	<scope>test</scope>
-</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.12</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.assertj</groupId>
+		<artifactId>assertj-core</artifactId>
+		<version>3.2.0</version>
+		<scope>test</scope>
+	</dependency>
+<!-- 	<dependency> -->
+<!-- 		<groupId>org.mockito</groupId> -->
+<!-- 		<artifactId>mockito-all</artifactId> -->
+<!-- 		<version>1.10.19</version> -->
+<!-- 		<scope>test</scope> -->
+<!-- 	</dependency> -->
+	<dependency>
+		<groupId>org.dbunit</groupId>
+		<artifactId>dbunit</artifactId>
+		<version>2.5.1</version>
+		<scope>test</scope>
+	</dependency>
 
-
-<!-- Miscellaneous stuff, to check parameters -->
-<dependency>
-	<groupId>org.hibernate</groupId>
-	<artifactId>hibernate-validator</artifactId>
-	<version>5.2.2.Final</version>
-</dependency>
-
-<!-- 
-Other overhead stuff that will not be used
-<dependency>
-	<groupId>xmlunit</groupId>
-	<artifactId>xmlunit</artifactId>
-	<version>1.6</version>
-</dependency>
-<dependency>
-	<groupId>org.hibernate</groupId>
-	<artifactId>hibernate-core</artifactId>
-	<version>${hibernate.version}</version>
-</dependency>
-
-<dependency>
-	<groupId>org.apache.httpcomponents</groupId>
-	<artifactId>httpclient</artifactId>
-	<version>4.5.1</version>
-</dependency>
-<dependency>
-	<groupId>xmlpull</groupId>
-	<artifactId>xmlpull</artifactId>
-	<version>1.1.3.1</version>
-</dependency>
-<dependency>
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-api</artifactId>
-	<version>1.7.12</version>
-</dependency>
-<dependency>
-	<groupId>log4j</groupId>
-	<artifactId>log4j</artifactId>
-	<version>1.2.17</version>
-</dependency> -->
-
+<!-- Database dependencies -->
+<!-- There is no direct Oracle connection from the app - we use Datasource -->
+	<dependency>
+		<groupId>com.oracle</groupId> 
+		<artifactId>ojdbc6</artifactId> 
+		<version>11.2.0.3</version> 
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>com.h2database</groupId>
+		<artifactId>h2</artifactId>
+		<version>1.4.190</version>
+		<scope>test</scope>
+	</dependency>
+		<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-api</artifactId>
+    	<version>1.7.13</version>
+    	<scope>test</scope>
+	</dependency>
+  	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+		<version>1.7.13</version>
+		<scope>test</scope>
+  	</dependency>
 
 </dependencies>  
 </project>
