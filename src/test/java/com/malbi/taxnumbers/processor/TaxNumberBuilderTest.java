@@ -64,18 +64,11 @@ public class TaxNumberBuilderTest extends DBUnitConfig {
 				// writer.write(resultXML);
 				// }
 
-				// String content = new
-				// String(Files.readAllBytes(Paths.get("duke.java")));
-				// ()),Charset.forName("UTF-8"));
-				// http://www.adam-bien.com/roller/abien/entry/java_8_reading_a_file
-				// URL responseFile =
-				// Thread.currentThread().getContextClassLoader()
-				// .getResource("/responses/" + docnum + ".xml");
-				//
-				// assertThat(responseFile).isNotNull();
-				//
-				// URI uri = responseFile.toURI();
-				// assertThat(uri).isNotNull();
+				// write test files
+				// ArrayList<String> lines = new ArrayList<String>();
+				// lines.add(resultXML);
+				// Files.write(Paths.get("f:\\temp\\" + docnum + ".xml"),
+				// lines);
 
 				// http://www.adam-bien.com/roller/abien/entry/java_8_reading_a_file
 				// http://stackoverflow.com/questions/15713119/java-nio-file-path-for-a-classpath-resource
@@ -87,6 +80,10 @@ public class TaxNumberBuilderTest extends DBUnitConfig {
 				assertThat(uri).isNotNull();
 
 				String content = new String(Files.readAllBytes(Paths.get(uri)), Charset.forName("UTF-8"));
+				content = content.replace("\r\n\r\n", "\r\n"); // it adds
+																// superfluous
+																// \r\n
+				// after reading
 
 				assertEquals(content, resultXML);
 			}

@@ -65,8 +65,14 @@ public class TaxXMLBuilder implements Serializable {
 
 		JAXB.marshal(response, outputBuffer);
 
-		return outputBuffer.toString();
+		// http://stackoverflow.com/questions/18668569/how-to-change-jaxb-marshaller-line-separator
 
+		// return outputBuffer.toString();
+
+		String str = outputBuffer.toString();
+		str = str.replace("\n", "\r\n");
+
+		return str;
 	}
 
 	private static final long serialVersionUID = 3500992059905548393L;
