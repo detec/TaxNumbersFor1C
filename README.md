@@ -30,6 +30,7 @@ Following technologies and components are used in this web service:
 - JUnit 4.12;
 - DBUnit 2.5;
 - JDBC (Oracle and H2);
+- Maven 3.3 with plugins compiler, surefire, resources, war;
 - Apache Tomcat 8;
 - Java 8.
 
