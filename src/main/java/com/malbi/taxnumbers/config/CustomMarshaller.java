@@ -1,5 +1,8 @@
 package com.malbi.taxnumbers.config;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
@@ -12,6 +15,8 @@ import com.malbi.taxnumbers.model.Result;
 public class CustomMarshaller implements ContextResolver<Marshaller> {
 
 	// http://stackoverflow.com/questions/18436782/specifying-jaxb-2-context-in-jersey-1-17
+
+	private Logger LOGGER = Logger.getLogger(CustomMarshaller.class.getName());
 
 	private JAXBContext context = null;
 
@@ -37,6 +42,7 @@ public class CustomMarshaller implements ContextResolver<Marshaller> {
 					// that
 					// this
 					// provider won't/can't be used.
+					LOGGER.log(Level.SEVERE, "CustomMarshaller - " + e.getMessage());
 				}
 			}
 		}
