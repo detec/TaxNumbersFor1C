@@ -5,9 +5,18 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 
+/**
+ * Jersey configuration.
+ *
+ * @author Andrii Duplyk
+ *
+ */
 @ApplicationPath("/services/")
 public class MyApplication extends ResourceConfig {
 
+	/**
+	 * Default config constructor.
+	 */
 	public MyApplication() {
 		packages("com.malbi.taxnumbers.controllers");
 
@@ -22,8 +31,6 @@ public class MyApplication extends ResourceConfig {
 		// But the boilerplate code for this is huge and in Eclipse this tool
 		// is not launched, only with maven plugin.
 		register(new MyApplicationBinder());
-
-		// register(CustomJaxBContext.class);
 
 		property(ServerProperties.APPLICATION_NAME, "Jersey 2 XML service for tax numbers");
 	}

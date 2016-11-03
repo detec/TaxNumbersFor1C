@@ -37,12 +37,7 @@ public class DBUnitConfig extends DBTestCase {
 	protected IDataSet beforeData;
 
 	public static final String JDBC_DRIVER = "org.h2.Driver";
-	// we initialize database after each test
-	// private static final String JDBC_URL =
-	// "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
 	public static final String JDBC_URL = "jdbc:h2:mem:test";
-	// public static final String JDBC_URL =
-	// "jdbc:h2:tcp://localhost/~/websync";
 	public static final String USER = "sa";
 	public static final String PASSWORD = "";
 
@@ -64,6 +59,7 @@ public class DBUnitConfig extends DBTestCase {
 	@Override
 	@Before
 	public void setUp() throws Exception {
+
 		tester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, USER, PASSWORD);
 
 		// this is an analogue to BeforeClass
@@ -169,18 +165,12 @@ public class DBUnitConfig extends DBTestCase {
 	@BeforeClass // Junit 3 and DBUnit do not understand it
 	public static void createSchema() throws Exception {
 
-		// it is the default dataset, later it will be overridden by another
-		// dataset in ancestors.
-		// InputStream in =
-		// DBUnitConfig.class.getResourceAsStream("/dbunit/schemabuilder.xml");
 		InputStream in = DBUnitConfig.class.getResourceAsStream("/dbunit/schemabuilder.xml");
 		FlatXmlDataSet DBData = new FlatXmlDataSetBuilder().build(in);
 
 		MockConnectionManager cm = new MockConnectionManager();
 		createH2Tables(DBData, cm.getDBConnection());
 
-		// RunScript.execute(JDBC_URL, USER, PASSWORD, "schema.sql",
-		// Charset.forName("UTF-8"), false);
 	}
 
 	public void compareDatasets(String expectedDatasetPath) {

@@ -4,12 +4,9 @@
       <attribute name="provider-id" value="jaxrs-no-op-library-provider"/>
     </node>
   </facet>
-  <facet id="jpt.jaxb">
+  <facet id="jst.jsf">
     <node name="libprov">
-      <attribute name="provider-id" value="jaxb-user-library-provider"/>
-    </node>
-    <node name="platform">
-      <attribute name="platform-id" value="generic_2_2"/>
+      <attribute name="provider-id" value="jsf-no-op-library-provider"/>
     </node>
   </facet>
 </root>

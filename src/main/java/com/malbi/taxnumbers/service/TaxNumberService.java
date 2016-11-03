@@ -2,6 +2,7 @@ package com.malbi.taxnumbers.service;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,48 +18,59 @@ import org.jvnet.hk2.annotations.Service;
 import com.malbi.taxnumbers.dao.ITaxNumberDAO;
 import com.malbi.taxnumbers.model.TaxNumberParameter;
 
+/**
+ * Implementation of {@link ITaxNumberService}
+ *
+ * @author Andrii Duplyk
+ *
+ */
 @Named("TaxNumberService")
 @ApplicationScoped
 @Service
 public class TaxNumberService implements Serializable, ITaxNumberService {
 
+	private static final long serialVersionUID = 5985218860122022636L;
+
+	@Inject
+	private ITaxNumberDAO taxNumberDAO;
+
+	private String exceptionString = "";
+
 	@Override
-	public String getTaxNumber(String firmokpo, String docnum, String docdate) {
+	public String getTaxNumber(String firmokpo, String docnum, String docdate) throws Exception {
 		TaxNumberParameter params = new TaxNumberParameter(firmokpo, docnum, docdate);
 
-		StringBuffer outputBuffer = new StringBuffer();
+		StringBuilder outputBuffer = new StringBuilder();
 
 		// here we should validate parameters, that have been passed with query
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		Set<ConstraintViolation<TaxNumberParameter>> constraintViolations = validator.validate(params);
 
-		StringBuffer validationBuffer = new StringBuffer();
-		constraintViolations.stream().forEach(t -> {
-			validationBuffer.append(t.getMessage() + "\n");
-		});
+		StringBuilder validationBuffer = new StringBuilder();
+		// constraintViolations.stream().forEach(t -> {
+		// validationBuffer.append(t.getMessage() + "\n");
+		// });
 
-		// 03.11.2015, Andrei Duplik, it is strange but validation falls on
-		// database where everything was OK.
+		constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining("\n"));
+
 		String validationMessage = validationBuffer.toString();
 		if (!validationMessage.isEmpty()) {
-			// throw new Exception(validationMessage);
-			// this.exceptionString = validationMessage;
+
 			outputBuffer.append(validationMessage);
 		}
 
 		String taxNumber = "";
 		try {
-			taxNumber = TaxNumberDAO.getTaxNumber(params);
+			taxNumber = taxNumberDAO.getTaxNumber(params);
 		} catch (NamingException e) {
 			outputBuffer.append("\n " + e.getMessage());
 		}
 
 		// Let's read exceptions from DAO
-		String DAOException = TaxNumberDAO.getExceptionString();
-		if (!DAOException.isEmpty()) {
-			// this.exceptionString = DAOException;
-			outputBuffer.append("\n " + DAOException);
+		String daoException = taxNumberDAO.getExceptionString();
+		if (!daoException.isEmpty()) {
+			outputBuffer.append("\n " + daoException);
 		}
 
 		// collect all errors into one string
@@ -68,8 +80,6 @@ public class TaxNumberService implements Serializable, ITaxNumberService {
 
 		return taxNumber;
 	}
-
-	private String exceptionString = "";
 
 	@Override
 	public String getExceptionString() {
@@ -83,17 +93,12 @@ public class TaxNumberService implements Serializable, ITaxNumberService {
 
 	@Override
 	public ITaxNumberDAO getTaxNumberDAO() {
-		return TaxNumberDAO;
+		return taxNumberDAO;
 	}
 
 	@Override
 	public void setTaxNumberDAO(ITaxNumberDAO taxNumberDAO) {
-		TaxNumberDAO = taxNumberDAO;
+		this.taxNumberDAO = taxNumberDAO;
 	}
-
-	private static final long serialVersionUID = 5985218860122022636L;
-
-	@Inject
-	private ITaxNumberDAO TaxNumberDAO;
 
 }

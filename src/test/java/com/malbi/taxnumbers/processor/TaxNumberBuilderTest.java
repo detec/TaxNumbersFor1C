@@ -2,19 +2,14 @@ package com.malbi.taxnumbers.processor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -32,8 +27,7 @@ public class TaxNumberBuilderTest extends DBUnitConfig {
 	private String XML_File = "";
 
 	@Test
-	public void testShouldMatchWithReferenceResponses()
-			throws UnsupportedEncodingException, FileNotFoundException, IOException, SQLException, URISyntaxException {
+	public void testShouldMatchWithReferenceResponses() throws Exception {
 		// String paramQuery = "select OKPO, TO_CHAR(number_generation_date,
 		// 'DD.MM.YYYY') number_generation_date, DOCUMENT_ID from
 		// request_params";

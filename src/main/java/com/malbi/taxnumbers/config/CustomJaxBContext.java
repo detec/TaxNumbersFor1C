@@ -1,33 +1,25 @@
 package com.malbi.taxnumbers.config;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ws.rs.ext.ContextResolver;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
 import com.malbi.taxnumbers.model.Result;
 
-//@Provider
-// We create custom marshaller in CustomMarshaller
-public class CustomJaxBContext implements ContextResolver<JAXBContext> {
-
-	// http://stackoverflow.com/questions/18436782/specifying-jaxb-2-context-in-jersey-1-17
-
-	// private final JAXBContext context;
-	// private final Set<Class<?>> types;
-	// private final Class<?>[] cTypes = { Result.class };
-	//
-	// public CustomJaxBContext() throws Exception {
-	// this.types = new HashSet<Class<?>>(Arrays.asList(cTypes));
-	// // this.context = new JettisonJaxbContext(JettisonConfig.DEFAULT,
-	// // cTypes);
-	// }
-	//
-	// @Override
-	// public JAXBContext getContext(Class<?> objectType) {
-	// return (types.contains(objectType)) ? context : null;
-	// }
+/**
+ * Try for JAXB context.
+ *
+ * @author Andrii Duplyk
+ *
+ */
+public class CustomJaxbContext implements ContextResolver<JAXBContext> {
 
 	private JAXBContext context = null;
+
+	private static final Logger LOGGER = Logger.getLogger(CustomJaxbContext.class.getName());
 
 	@Override
 	public JAXBContext getContext(Class<?> type) {
@@ -42,6 +34,7 @@ public class CustomJaxBContext implements ContextResolver<JAXBContext> {
 				// log warning/error; null will be returned which indicates that
 				// this
 				// provider won't/can't be used.
+				LOGGER.log(Level.SEVERE, "Error with JAXB context - " + e.getMessage(), e);
 			}
 		}
 		return context;

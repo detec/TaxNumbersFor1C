@@ -11,12 +11,18 @@ import javax.xml.bind.Marshaller;
 
 import com.malbi.taxnumbers.model.Result;
 
+/**
+ * Custom marshaller
+ *
+ * @author Andrii Duplyk
+ *
+ */
 @Provider
 public class CustomMarshaller implements ContextResolver<Marshaller> {
 
 	// http://stackoverflow.com/questions/18436782/specifying-jaxb-2-context-in-jersey-1-17
 
-	private Logger LOGGER = Logger.getLogger(CustomMarshaller.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CustomMarshaller.class.getName());
 
 	private JAXBContext context = null;
 
@@ -28,22 +34,20 @@ public class CustomMarshaller implements ContextResolver<Marshaller> {
 			return null; // we don't support nothing else than Result
 		}
 
-		if (marshaller == null) {
+		if (marshaller == null && context == null) {
 
-			if (context == null) {
-				try {
-					context = JAXBContext.newInstance(Result.class);
-					marshaller = context.createMarshaller();
-					marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-					marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+			try {
+				context = JAXBContext.newInstance(Result.class);
+				marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
-				} catch (JAXBException e) {
-					// log warning/error; null will be returned which indicates
-					// that
-					// this
-					// provider won't/can't be used.
-					LOGGER.log(Level.SEVERE, "CustomMarshaller - " + e.getMessage());
-				}
+			} catch (JAXBException e) {
+				// log warning/error; null will be returned which indicates
+				// that
+				// this
+				// provider won't/can't be used.
+				LOGGER.log(Level.SEVERE, "CustomMarshaller - " + e.getMessage(), e);
 			}
 		}
 

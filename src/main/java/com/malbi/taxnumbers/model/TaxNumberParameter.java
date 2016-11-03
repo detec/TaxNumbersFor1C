@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-/*This class is needed to apply Validator checks*/
+/** This class is needed to apply Validator checks */
 public class TaxNumberParameter {
 
 	@NotNull
@@ -14,13 +14,6 @@ public class TaxNumberParameter {
 	@Size(min = 8, max = 10)
 	@Pattern(regexp = "[\\d]{8,10}")
 	private String firmokpo;
-
-	public TaxNumberParameter(String firmokpo, String docnum, String docdate) {
-
-		this.firmokpo = firmokpo;
-		this.docnum = docnum;
-		this.docdate = docdate;
-	}
 
 	@NotNull
 	@NotEmpty
@@ -30,6 +23,19 @@ public class TaxNumberParameter {
 	@NotEmpty
 	@Pattern(regexp = "[\\d]{2}\\.[\\d]{2}\\.20[\\d]{2}") // example 27.10.2015
 	private String docdate;
+
+	/**
+	 *
+	 * @param firmokpo
+	 * @param docnum
+	 * @param docdate
+	 */
+	public TaxNumberParameter(String firmokpo, String docnum, String docdate) {
+
+		this.firmokpo = firmokpo;
+		this.docnum = docnum;
+		this.docdate = docdate;
+	}
 
 	public String getFirmokpo() {
 		return firmokpo;
