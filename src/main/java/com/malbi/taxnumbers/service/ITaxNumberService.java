@@ -27,18 +27,6 @@ public interface ITaxNumberService {
 	 *
 	 * @return
 	 */
-	public String getExceptionString();
-
-	/**
-	 *
-	 * @param exceptionString
-	 */
-	public void setExceptionString(String exceptionString);
-
-	/**
-	 *
-	 * @return
-	 */
 	public ITaxNumberDAO getTaxNumberDAO();
 
 	/**

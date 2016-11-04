@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.naming.NamingException;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -34,10 +33,8 @@ public class TaxNumberService implements Serializable, ITaxNumberService {
 	@Inject
 	private ITaxNumberDAO taxNumberDAO;
 
-	private String exceptionString = "";
-
 	@Override
-	public String getTaxNumber(String firmokpo, String docnum, String docdate) throws Exception {
+	public String getTaxNumber(String firmokpo, String docnum, String docdate) {
 		TaxNumberParameter params = new TaxNumberParameter(firmokpo, docnum, docdate);
 
 		StringBuilder outputBuffer = new StringBuilder();
@@ -48,47 +45,21 @@ public class TaxNumberService implements Serializable, ITaxNumberService {
 		Set<ConstraintViolation<TaxNumberParameter>> constraintViolations = validator.validate(params);
 
 		StringBuilder validationBuffer = new StringBuilder();
-		// constraintViolations.stream().forEach(t -> {
-		// validationBuffer.append(t.getMessage() + "\n");
-		// });
 
-		constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining("\n"));
+		validationBuffer.append(
+				constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining("\n")));
 
 		String validationMessage = validationBuffer.toString();
 		if (!validationMessage.isEmpty()) {
 
-			outputBuffer.append(validationMessage);
+			// outputBuffer.append(validationMessage);
+			// Throwing Exception with contents.
+			throw new IllegalArgumentException("Invalid input parameters: " + validationMessage);
 		}
 
-		String taxNumber = "";
-		try {
-			taxNumber = taxNumberDAO.getTaxNumber(params);
-		} catch (NamingException e) {
-			outputBuffer.append("\n " + e.getMessage());
-		}
-
-		// Let's read exceptions from DAO
-		String daoException = taxNumberDAO.getExceptionString();
-		if (!daoException.isEmpty()) {
-			outputBuffer.append("\n " + daoException);
-		}
-
-		// collect all errors into one string
-		if (!outputBuffer.toString().isEmpty()) {
-			this.exceptionString = outputBuffer.toString();
-		}
+		String taxNumber = taxNumberDAO.getTaxNumber(params);
 
 		return taxNumber;
-	}
-
-	@Override
-	public String getExceptionString() {
-		return exceptionString;
-	}
-
-	@Override
-	public void setExceptionString(String exceptionString) {
-		this.exceptionString = exceptionString;
 	}
 
 	@Override

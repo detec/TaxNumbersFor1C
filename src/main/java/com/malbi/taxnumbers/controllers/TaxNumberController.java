@@ -31,10 +31,10 @@ import com.malbi.taxnumbers.processor.TaxXMLBuilder;
 @Path("/taxinvoicenumber")
 public class TaxNumberController implements Serializable {
 
+	private static final long serialVersionUID = -2604171208172260144L;
+
 	@Inject
 	private TaxXMLBuilder taxXMLBuilder;
-
-	private static final long serialVersionUID = -2604171208172260144L;
 
 	/**
 	 * Required empty constructor.

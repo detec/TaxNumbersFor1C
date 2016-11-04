@@ -22,13 +22,7 @@ public interface ITaxNumberDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public String getTaxNumber(TaxNumberParameter params) throws Exception;
-
-	/**
-	 *
-	 * @return
-	 */
-	public String getExceptionString();
+	public String getTaxNumber(TaxNumberParameter params);
 
 	/**
 	 *

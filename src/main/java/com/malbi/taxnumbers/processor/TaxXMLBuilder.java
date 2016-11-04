@@ -2,6 +2,8 @@ package com.malbi.taxnumbers.processor;
 
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,6 +28,8 @@ public class TaxXMLBuilder implements Serializable {
 
 	private static final long serialVersionUID = 3500992059905548393L;
 
+	private static final Logger LOGGER = Logger.getLogger(TaxXMLBuilder.class.getName());
+
 	StringWriter outputBuffer = new StringWriter();
 
 	@Inject
@@ -40,31 +44,6 @@ public class TaxXMLBuilder implements Serializable {
 	 * @throws Exception
 	 */
 	public String getTaxNumberXML(String firmokpo, String docnum, String docdate) throws Exception {
-		// String taxNumber = taxNumberService.getTaxNumber(firmokpo, docnum,
-		// docdate);
-		//
-		// StringWriter outputBuffer = new StringWriter();
-		// String exceptionString = this.taxNumberService.getExceptionString();
-		//
-		// if (!exceptionString.isEmpty()) {
-		// outputBuffer.append(exceptionString);
-		// }
-		//
-		// if (taxNumber.isEmpty()) {
-		// outputBuffer.append("\n Налоговый номер не найден!");
-		// taxNumber = outputBuffer.toString();
-		// }
-		//
-		// // building response
-		// Result.Taxinvoicenumber numberHolder = new Result.Taxinvoicenumber();
-		// numberHolder.setNumber(taxNumber);
-		// // probably we need empty value to have closing tag.
-		// numberHolder.setValue("");
-		//
-		// // building root element
-		// Result response = new Result();
-		// response.setTaxinvoicenumber(numberHolder);
-
 		Result response = getResultTaxInvoiceNumber(firmokpo, docnum, docdate);
 
 		// http://stackoverflow.com/questions/31637729/jaxb-marshall-unmarshall?rq=1
@@ -90,15 +69,16 @@ public class TaxXMLBuilder implements Serializable {
 		return getResultTaxInvoiceNumber(firmokpo, docnum, docdate);
 	}
 
-	private Result getResultTaxInvoiceNumber(String firmokpo, String docnum, String docdate) throws Exception {
+	private Result getResultTaxInvoiceNumber(String firmokpo, String docnum, String docdate) {
 
-		String taxNumber = taxNumberService.getTaxNumber(firmokpo, docnum, docdate);
+		String taxNumber = null;
+		try {
+			taxNumber = taxNumberService.getTaxNumber(firmokpo, docnum, docdate);
+		} catch (Exception e) {
+			String errMsg = "Error getting tax number: " + e.getMessage();
+			LOGGER.log(Level.SEVERE, errMsg, e);
 
-		StringWriter outputBuffer = new StringWriter();
-		String exceptionString = this.taxNumberService.getExceptionString();
-
-		if (!exceptionString.isEmpty()) {
-			outputBuffer.append(exceptionString);
+			throw new IllegalStateException(errMsg, e);
 		}
 
 		if (taxNumber.isEmpty()) {

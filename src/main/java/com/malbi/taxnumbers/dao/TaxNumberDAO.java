@@ -3,8 +3,9 @@ package com.malbi.taxnumbers.dao;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ import javax.inject.Named;
 
 import org.jvnet.hk2.annotations.Service;
 
+import com.malbi.taxnumbers.config.CustomMarshaller;
 import com.malbi.taxnumbers.db.IConnectionManager;
 import com.malbi.taxnumbers.db.SQLQueries;
 import com.malbi.taxnumbers.model.TaxNumberParameter;
@@ -28,16 +30,16 @@ public class TaxNumberDAO implements Serializable, ITaxNumberDAO {
 
 	private static final long serialVersionUID = 4695183924489794739L;
 
+	private static final Logger LOGGER = Logger.getLogger(CustomMarshaller.class.getName());
+
 	@Inject
 	private IConnectionManager cm;
 
 	@Inject
 	private SQLQueries sqlQueries;
 
-	private String exceptionString = "";
-
 	@Override
-	public String getTaxNumber(TaxNumberParameter params) throws Exception {
+	public String getTaxNumber(TaxNumberParameter params) {
 		String storedQuery = sqlQueries.getProperty().getProperty("tax.number.select");
 
 		String queryString = String.format(storedQuery, params.getFirmokpo(), params.getDocdate(), params.getDocnum());
@@ -55,14 +57,14 @@ public class TaxNumberDAO implements Serializable, ITaxNumberDAO {
 				taxInvoiceNumber = rs.getString(1);
 			}
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			String errMsg = "Error getting tax number: " + e.getMessage();
+			LOGGER.log(Level.SEVERE, errMsg, e);
 			errorBuffer.append(e.getMessage());
+
+			throw new IllegalStateException(errMsg);
 		}
 
-		String errorBufferString = errorBuffer.toString();
-		if (!errorBufferString.isEmpty()) {
-			this.exceptionString = errorBufferString;
-		}
 		return taxInvoiceNumber;
 	}
 
@@ -84,15 +86,6 @@ public class TaxNumberDAO implements Serializable, ITaxNumberDAO {
 	@Override
 	public void setSqlQueries(SQLQueries sqlQueries) {
 		this.sqlQueries = sqlQueries;
-	}
-
-	@Override
-	public String getExceptionString() {
-		return exceptionString;
-	}
-
-	public void setExceptionString(String exceptionString) {
-		this.exceptionString = exceptionString;
 	}
 
 }

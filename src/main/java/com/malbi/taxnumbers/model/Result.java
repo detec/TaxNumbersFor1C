@@ -7,6 +7,8 @@
 
 package com.malbi.taxnumbers.model;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -79,6 +81,27 @@ public class Result {
 		this.taxinvoicenumber = value;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.taxinvoicenumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Result other = (Result) obj;
+
+		return Objects.equals(this.taxinvoicenumber, other.taxinvoicenumber);
+	}
+
 	/**
 	 * <p>
 	 * Java class for anonymous complex type.
@@ -148,6 +171,26 @@ public class Result {
 		 */
 		public void setNumber(String value) {
 			this.number = value;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(this.number);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (getClass() != obj.getClass()) {
+				return false;
+			}
+			Taxinvoicenumber other = (Taxinvoicenumber) obj;
+			return Objects.equals(this.number, other.number);
 		}
 
 	}

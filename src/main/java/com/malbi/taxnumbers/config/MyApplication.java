@@ -23,6 +23,8 @@ public class MyApplication extends ResourceConfig {
 		// config classes
 		packages("com.malbi.taxnumbers.config");
 
+		packages("com.malbi.taxnumbers.exception");
+
 		// we will try to use Jersey 2 HK injection component
 		// without manual binding it does not work
 		// There is an option to generate a file with map for interfaces and
